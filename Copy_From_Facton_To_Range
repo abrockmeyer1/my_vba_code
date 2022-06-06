@@ -1,0 +1,60 @@
+Attribute VB_Name = "Copy_From_Facton_To_Range"
+Sub Copy_From_Facton_To_Range()
+
+    Dim Wb1 As Workbook
+    Dim Wb2 As Workbook
+    Dim Sh1 As Worksheet
+    Dim FrmSh As Worksheet
+    Dim ToSh As Worksheet
+    Dim ToShName As String
+    Dim Val As String
+    Dim ws As Worksheet
+    Dim wsname As String
+    Dim i As Variant
+    
+    
+    Set Wb1 = Application.Workbooks("Rivian Supplier Capacity Data Verification Edit")
+    Set Wb2 = Application.Workbooks("RPV_FactonReport_Rivian_96634_19Aug2021")
+    
+    Wb1.Activate
+    Set Sh1 = Wb1.Sheets(1)
+    
+    For Each ToSh In Wb1.Sheets
+        If ToSh.Name = "Supplier Part List" Then
+            GoTo Skip1
+        Else
+        
+            ToSh.Activate
+            ToShName = ActiveSheet.Name
+        
+            For Each ws In Wb2.Sheets
+                ws.Activate
+                If ToShName = Right(ActiveSheet.Name, 10) Then
+                    Set FrmSht = ActiveSheet
+                    Exit For
+                End If
+            Next ws
+        
+            FrmSht.Activate
+        
+            Val = Range("I40").Value
+           
+            ToSh.Activate
+        
+            Range("H23").Select
+        
+            Selection.Formula = Val
+        
+            Range("I23").Select
+        
+            Selection.Formula = Val
+        End If
+Skip1:
+        
+        
+    
+    Next ToSh
+    
+
+End Sub
+
